@@ -41,6 +41,8 @@ GLfloat	z=0.0f;				// Depth Into The Screen
 
 
 
+
+
 bool	keys[256];			// Array Used For The Keyboard Routine
 bool	active = TRUE;		// Window Active Flag Set To TRUE By Default
 bool	fullscreen = TRUE;	// Fullscreen Flag Set To Fullscreen Mode By Default
@@ -56,7 +58,7 @@ int LoadGLTextures()                                    // Load Bitmaps And Conv
 	/* load an image file directly as a new OpenGL texture */
 	texture[0] = SOIL_load_OGL_texture
 		(
-		"Textures/Tim.bmp",
+		"Textures/Wood.bmp",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
@@ -64,7 +66,7 @@ int LoadGLTextures()                                    // Load Bitmaps And Conv
 
 	texture[1] = SOIL_load_OGL_texture
 		(
-		"Textures/Nature.bmp",
+		"Textures/Door.bmp",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
@@ -83,8 +85,8 @@ int LoadGLTextures()                                    // Load Bitmaps And Conv
 
 	// Typical Texture Generation Using Data From The Bitmap
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// Typical Texture Generation Using Data From The Bitmap
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
@@ -135,23 +137,29 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
+	glEnable(GL_TEXTURE_2D);
 	return TRUE;										// Initialization Went OK
 }
 
 void allDrawings()
 {
-	glBindTexture(GL_TEXTURE_2D, texture[2]);               // Select Our Texture
-	Train::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(10,10,0),Point(10,0,0)); //front
-	Train::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(10,10,-30),Point(10,0,-30));//back
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front right
+	Train::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front left
+	Train::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //front right
+	Train::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //front center
+	Train::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //front left
 	glBindTexture(GL_TEXTURE_2D, texture[1]); 
 
 	Train::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
-	Train::DrawDoor(Point(3,0,-30),Point(3,7,-30),Point(-3,7,-30),Point(-3,0,-30));
-	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	Train::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
 	Train::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
 	Train::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
 	Train::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+	 glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
 }
 
 void skyBox()
@@ -176,8 +184,26 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glRotatef(lookupdown,1.0f,0,0);
 	glRotatef(sceneroty,0,1.0f,0);
 
-	glTranslatef(xtrans, ytrans, ztrans);
-	skyBox();
+	glTranslatef(xtrans, ytrans-2.5, ztrans);
+	//skyBox();
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
+	allDrawings();
+	glTranslatef(0,0,-30);
 	allDrawings();
 
 
