@@ -16,7 +16,7 @@
 #include "SOIL.h"
 #include "Train.h"
 #include "point.h"
-#include "SkyBox.h"
+
 
 #pragma comment(lib,"SOIL.lib")
 
@@ -66,7 +66,7 @@ int LoadGLTextures()                                    // Load Bitmaps And Conv
 
 	texture[1] = SOIL_load_OGL_texture
 		(
-		"Textures/Door.bmp",
+		"Textures/nature1.bmp",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
@@ -74,29 +74,29 @@ int LoadGLTextures()                                    // Load Bitmaps And Conv
 
 	texture[2] = SOIL_load_OGL_texture
 		(
-		"Textures/Tim.bmp",
+		"Textures/nature2.bmp",
 		SOIL_LOAD_AUTO,
 		SOIL_CREATE_NEW_ID,
 		SOIL_FLAG_INVERT_Y
-		);
 
+		);
 	if (texture[0] == 0 || texture[1] == 0 || texture[2] == 0) return false;
 
 
 	// Typical Texture Generation Using Data From The Bitmap
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	// Typical Texture Generation Using Data From The Bitmap
 	glBindTexture(GL_TEXTURE_2D, texture[1]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	// Typical Texture Generation Using Data From The Bitmap
 	glBindTexture(GL_TEXTURE_2D, texture[2]);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	return TRUE;                                        // Return Success
 }
@@ -130,52 +130,253 @@ int InitGL(GLvoid)										// All Setup For OpenGL Goes Here
 	{
 		return FALSE;                           // If Texture Didn't Load Return FALSE ( NEW )
 	}
-	glEnable(GL_TEXTURE_2D);                       // Enable Texture Mapping ( NEW )
+
 	glShadeModel(GL_SMOOTH);							// Enable Smooth Shading
-	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);				// Black Background
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);				// Black Background
 	glClearDepth(1.0f);									// Depth Buffer Setup
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_TEXTURE_2D);							 // Enable Texture Mapping 
 	return TRUE;										// Initialization Went OK
 }
 
-void allDrawings()
+void Train1()
 {
 	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
-	Train::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front right
-	Train::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
-	Train::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front left
-	Train::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //front right
-	Train::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //front center
-	Train::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //front left
-	glBindTexture(GL_TEXTURE_2D, texture[1]); 
+	Train1::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(10,10,0),Point(10,0,0)); //front
 
-	Train::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+	Train1::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train1::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train1::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+
+	Train1::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train1::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train1::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train1::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train1::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train1::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train2()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train2::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train2::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train2::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train2::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train2::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train2::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train2::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
-	Train::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
-	Train::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
-	Train::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
-	Train::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
-	 glBindTexture(GL_TEXTURE_2D, texture[2]);
-	Train::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train2::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train2::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train2::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train2::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[1]);
+	Train2::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train2::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
 }
-
-void skyBox()
+void Train3()
 {
-
+	glTranslatef(0,0,-30);
 	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
-	SkyBox::skyBox(Point(-50,0,-50),Point(-50,50,-50),Point(50,50,-50),Point(50,0,-50));
+	Train3::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train3::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train3::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train3::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train3::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train3::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
 
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train3::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train3::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train3::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train3::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train3::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train3::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train3::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
 }
-int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
+void Train4()
 {
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train4::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train4::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train4::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train4::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train4::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train4::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
-	glLoadIdentity();	// Reset The Current Modelview Matrix
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train4::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
 
-	//glRotatef(0,0,1,0);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train4::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train4::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train4::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train4::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train4::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train4::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train5()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train5::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train5::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train5::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train5::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train5::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train5::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train5::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train5::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train5::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train5::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train5::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train5::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train5::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train6()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train6::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train6::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train6::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train6::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train6::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train6::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train6::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train6::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train6::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train6::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train6::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train6::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train6::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train7()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train7::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train7::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train7::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train7::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train7::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train7::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train7::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train7::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train7::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train7::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train7::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train7::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train7::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train8()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train8::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train8::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train8::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train8::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train8::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train8::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train8::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train8::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train8::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train8::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train8::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train8::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train8::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train9()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train9::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train9::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train9::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train9::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train9::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train9::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train9::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train9::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train9::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train9::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train9::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train9::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train9::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Train10()
+{
+	glTranslatef(0,0,-30);
+	glBindTexture(GL_TEXTURE_2D, texture[0]);               // Select Our Texture
+	Train10::DrawTrain(Point(-10,0,0),Point(-10,10,0),Point(-3,10,0),Point(-3,0,0)); //front left
+	Train10::DrawTrain(Point(-3,7,0),Point(-3,10,0),Point(3,10,0),Point(3,7,0)); //front center
+	Train10::DrawTrain(Point(3,0,0),Point(3,10,0),Point(10,10,0),Point(10,0,0)); //front right
+	Train10::DrawTrain(Point(-10,0,-30),Point(-10,10,-30),Point(-3,10,-30),Point(-3,0,-30)); //back left
+	Train10::DrawTrain(Point(-3,7,-30),Point(-3,10,-30),Point(3,10,-30),Point(3,7,-30)); //back center
+	Train10::DrawTrain(Point(3,0,-30),Point(3,10,-30),Point(10,10,-30),Point(10,0,-30)); //back right
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]); 
+	Train10::DrawDoor(Point(3,0,0),Point(3,7,0),Point(-3,7,0),Point(-3,0,0));
+
+	glBindTexture(GL_TEXTURE_2D, texture[0]);
+	Train10::DrawWalls(Point(-10,0,-30),Point(-10,10,-30),Point(-10,10,0),Point(-10,0,0)); //left
+	Train10::DrawWalls(Point(10,0,0),Point(10,10,0),Point(10,10,-30),Point(10,0,-30));	//right
+	Train10::DrawWalls(Point(-10,10,-30),Point(10,10,-30),Point(10,10,0),Point(-10,10,0));	 //roof
+	Train10::DrawWalls(Point(-10,0,-30),Point(10,0,-30),Point(10,0,0),Point(-10,0,0));	//floor
+
+	glBindTexture(GL_TEXTURE_2D, texture[2]);
+	Train10::Window(Point(-10,3,-10),Point(-10,8,-10),Point(-10,8,-20),Point(-10,3,-20));
+	Train10::Window(Point(10,3,-10),Point(10,8,-10),Point(10,8,-20),Point(10,3,-20));
+}
+void Camera(){
 	GLfloat xtrans = -xpos;
 	GLfloat ztrans = -zpos;
 	GLfloat ytrans = -walkbias-0.25f;
@@ -185,26 +386,26 @@ int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
 	glRotatef(sceneroty,0,1.0f,0);
 
 	glTranslatef(xtrans, ytrans-2.5, ztrans);
-	//skyBox();
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
-	glTranslatef(0,0,-30);
-	allDrawings();
+
+}
+int DrawGLScene(GLvoid)									// Here's Where We Do All The Drawing
+{
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear Screen And Depth Buffer
+	glLoadIdentity();	// Reset The Current Modelview Matrix
+
+	Camera();
+	Train1();
+	Train2();
+	Train3();
+	Train4();
+	Train5();
+	Train6();
+	Train7();
+	Train8();	 
+	Train9();
+	Train10();
+
 
 
 
