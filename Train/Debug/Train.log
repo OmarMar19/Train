@@ -1,16 +1,24 @@
-﻿Build started 12/8/2022 9:24:36 AM.
+﻿Build started 12/16/2022 4:58:44 PM.
      1>Project "D:\opengl\Train\Train\Train.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Source.cpp
          Source.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\opengl\Train\Debug\Train.exe" /INCREMENTAL /NOLOGO GLAUX.lib glut32.lib GLU32.lib OPENGL32.lib glut.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\opengl\Train\Debug\Train.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\opengl\Train\Debug\Train.lib" /MACHINE:X86 Debug\point.obj
-         Debug\SkyBox.obj
          Debug\Source.obj
-         Debug\Train.obj
+         Debug\Train1.obj
+         Debug\Train10.obj
+         Debug\Train2.obj
+         Debug\Train3.obj
+         Debug\Train4.obj
+         Debug\Train5.obj
+         Debug\Train6.obj
+         Debug\Train7.obj
+         Debug\Train8.obj
+         Debug\Train9.obj
          Train.vcxproj -> D:\opengl\Train\Debug\Train.exe
      1>Done Building Project "D:\opengl\Train\Train\Train.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.00
+Time Elapsed 00:00:03.09
